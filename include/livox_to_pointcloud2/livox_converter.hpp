@@ -36,12 +36,12 @@ public:
     add_field("x", 0, PointField::FLOAT32);
     add_field("y", points_msg->fields.back().offset + sizeof(float), PointField::FLOAT32);
     add_field("z", points_msg->fields.back().offset + sizeof(float), PointField::FLOAT32);
-    add_field("t", points_msg->fields.back().offset + sizeof(float), PointField::UINT32);
-    add_field("intensity", points_msg->fields.back().offset + sizeof(std::uint32_t), PointField::FLOAT32);
+    add_field("intensity", points_msg->fields.back().offset + sizeof(float), PointField::FLOAT32);
     add_field("tag", points_msg->fields.back().offset + sizeof(float), PointField::UINT8);
     add_field("line", points_msg->fields.back().offset + sizeof(std::uint8_t), PointField::UINT8);
+    add_field("timestamp", points_msg->fields.back().offset + sizeof(std::uint8_t), PointField::FLOAT64);
     points_msg->is_bigendian = false;
-    points_msg->point_step = sizeof(float) * 4 + sizeof(uint32_t) + sizeof(uint8_t) * 2;
+    points_msg->point_step = sizeof(float) * 4 + sizeof(uint8_t) * 2 + sizeof(double);
     points_msg->is_dense = true;
   }
 
@@ -59,10 +59,10 @@ public:
       *reinterpret_cast<float*>(ptr + points_msg->fields[0].offset) = livox_msg.points[i].x;
       *reinterpret_cast<float*>(ptr + points_msg->fields[1].offset) = livox_msg.points[i].y;
       *reinterpret_cast<float*>(ptr + points_msg->fields[2].offset) = livox_msg.points[i].z;
-      *reinterpret_cast<std::uint32_t*>(ptr + points_msg->fields[3].offset) = livox_msg.points[i].offset_time;
-      *reinterpret_cast<float*>(ptr + points_msg->fields[4].offset) = livox_msg.points[i].reflectivity;
-      *reinterpret_cast<std::uint8_t*>(ptr + points_msg->fields[5].offset) = livox_msg.points[i].tag;
-      *reinterpret_cast<std::uint8_t*>(ptr + points_msg->fields[6].offset) = livox_msg.points[i].line;
+      *reinterpret_cast<float*>(ptr + points_msg->fields[3].offset) = static_cast<float>(livox_msg.points[i].reflectivity);
+      *reinterpret_cast<std::uint8_t*>(ptr + points_msg->fields[4].offset) = livox_msg.points[i].tag;
+      *reinterpret_cast<std::uint8_t*>(ptr + points_msg->fields[5].offset) = livox_msg.points[i].line;
+      *reinterpret_cast<double*>(ptr + points_msg->fields[6].offset) = static_cast<double>(livox_msg.timebase + livox_msg.points[i].offset_time);
 
       ptr += points_msg->point_step;
     }
