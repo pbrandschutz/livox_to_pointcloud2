@@ -16,8 +16,8 @@ ros2 component standalone livox_to_pointcloud2 livox_to_pointcloud2::LivoxToPoin
 ```
 
 - In/Out Topics:
-  - Input topic: **/livox/lidar** (```livox_interfaces::msg::CustomMsg```)
-  - Output topic: **/livox/points** (```sensor_msgs::msg::PointCloud2```)
+  - Input topic: **cloud_in** (```livox_interfaces::msg::CustomMsg```)
+  - Output topic: **cloud_out** (```sensor_msgs::msg::PointCloud2```)
 
 - Point fields in the output pointcloud:
   - x, y, z : FLOAT32
