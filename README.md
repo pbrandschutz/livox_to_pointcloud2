@@ -21,10 +21,10 @@ ros2 component standalone livox_to_pointcloud2 livox_to_pointcloud2::LivoxToPoin
 
 - Point fields in the output pointcloud:
   - x, y, z : FLOAT32
-  - t : UINT32
   - intensity : FLOAT32
   - tag : UINT8
   - line : UINT8
+  - timestamp : FLOAT64
 
 ## License
 
